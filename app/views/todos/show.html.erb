@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Todo:</strong>
+  <%= @todo.todo %>
+  <%= check_box_tag(:completed) %>
+  <%= label_tag(:completed, "Tarea Completada") %>
+  
+</p>
+
+<%= link_to 'Edit', edit_todo_path(@todo) %> |
+<%= link_to 'Back', todos_path %>

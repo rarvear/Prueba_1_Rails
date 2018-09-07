@@ -1,0 +1,85 @@
+class TodosController < ApplicationController
+  before_action :set_todo, only: [:show, :edit, :update, :complete, :destroy]
+
+
+  def index
+    @todos = Todo.all
+  end
+
+  def show
+  end
+
+
+  def new
+    @todo = Todo.new
+  end
+
+  def edit
+  end
+
+
+  def create
+    @todo = Todo.new(todo_params)
+
+    respond_to do |format|
+      if @todo.save
+        format.html { redirect_to @todo, notice: 'Todo was successfully created.' }
+        format.json { render :show, status: :created, location: @todo }
+      else
+        format.html { render :new }
+        format.json { render json: @todo.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /todos/1
+  # PATCH/PUT /todos/1.json
+  def update
+    respond_to do |format|
+      if @todo.update(todo_params)
+        format.html { redirect_to @todo, notice: 'Todo was successfully updated.' }
+        format.json { render :show, status: :ok, location: @todo }
+      else
+        format.html { render :edit }
+        format.json { render json: @todo.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
+  def destroy
+    @todo.destroy
+    respond_to do |format|
+      format.html { redirect_to todos_url, notice: 'Todo was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def complete
+
+    @completed = params[:completed]
+    @completed = true
+    @completed.save
+    respond_to do |format|
+      format.html { render :index }
+    end
+
+    
+  end
+
+    def list
+      @todos = Todo.all
+    end
+
+  private
+   
+    def set_todo
+      @todo = Todo.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def todo_params
+      params.require(:todo).permit(:todo)
+    end
+
+end
